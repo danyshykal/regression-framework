@@ -1,0 +1,34 @@
+Test Case ID,Module,Scenario,Test Data,Expected Result,Suite,Setup method,Priority
+TC_SMK_01,Smoke,App loads with release label,login page,Login form visible; footer shows release,Smoke + Regression,UI,High
+TC_SMK_02,Smoke,Core journey end to end,demo / Demo@123; task Buy groceries,Logged in; task visible in list,Smoke + Regression,UI only (no shortcuts),High
+TC_LOGIN_01,Login,Valid login,demo / Demo@123,Redirect to /tasks; user name shown,Smoke + Regression,UI,High
+TC_LOGIN_02,Login,Wrong password,data/invalid_logins.json,Error shown; stays on /login,Regression,UI (data-driven),High
+TC_LOGIN_03,Login,Unknown user,data/invalid_logins.json,Error shown; stays on /login,Regression,UI (data-driven),High
+TC_LOGIN_04,Login,Empty fields,data/invalid_logins.json,Error shown; stays on /login,Regression,UI (data-driven),Medium
+TC_LOGIN_05,Login,Username wrong case,data/invalid_logins.json (Demo),Error shown; stays on /login,Regression,UI (data-driven),Medium
+TC_LOGIN_06,Login,Logout ends session,log in then log out,Back on /login; /tasks redirects to /login,Regression,UI,High
+TC_LOGIN_07,Login,Protected page,open /tasks logged out,Redirect to /login,Regression,UI,High
+TC_CRT_01,Create task,Add a task,Prepare interview notes; high; due in 7 days,Row shows title / priority / due; summary 1 open,Smoke + Regression,API login,High
+TC_CRT_02a,Create task,Empty title,data/invalid_tasks.json,"""Title is required""; nothing saved",Regression,API login (data-driven),High
+TC_CRT_02b,Create task,Spaces-only title,data/invalid_tasks.json,"""Title is required""; nothing saved",Regression,API login (data-driven),High
+TC_CRT_02c,Create task,Title 101 characters,data/invalid_tasks.json,"""Title must be 100 characters or fewer""",Regression,API login (data-driven),Medium
+TC_CRT_02d,Create task,Due date yesterday,data/invalid_tasks.json,"""Due date cannot be in the past""",Regression,API login (data-driven),High
+TC_CRT_03,Create task,Title exactly 100 characters,100 x B,Task saved (boundary),Regression,API login,Medium
+TC_CRT_04,Create task,Due date today,today's date,Task saved (boundary),Regression,API login,Medium
+TC_CRT_05,Create task,Form keeps values after error,101-char title; high,Error shown; title and priority still filled in,Regression,API login,Low
+TC_ACT_01,Task actions,Complete a task,seeded: Pay rent,Checked; row has class done; summary 0 open 1 done,Regression,API login + API seed,High
+TC_ACT_02,Task actions,Reopen a task,seeded done task,Unchecked,Regression,API login + API seed,Medium
+TC_ACT_03,Task actions,Delete and confirm,seeded 2 tasks; accept dialog,"Dialog says ""Delete this task?""; only that task removed",Regression,API login + API seed,High
+TC_ACT_04,Task actions,Delete and cancel,seeded task; dismiss dialog,Task still there after reload,Regression,API login + API seed,High
+TC_ACT_05,Task actions,Completion survives reload,seeded task,Still checked after reload,Regression,API login + API seed,Medium
+TC_SUM_01,Task actions,Summary counts,seeded 2 open + 3 done,"""2 open · 3 done""",Regression,API login + API seed,High
+TC_FLT_01,Filter,Open tab,seeded 2 open + 2 done,Only the 2 open tasks,Regression,API login + API seed,High
+TC_FLT_02,Filter,Done tab,seeded 2 open + 2 done,Only the 2 done tasks,Regression,API login + API seed,High
+TC_FLT_03,Filter,All tab,seeded 4 tasks,4 rows; All tab marked current,Regression,API login + API seed,Medium
+TC_SRC_01,Search,Search filters list,search re,3 matching tasks,Regression,API login + API seed,High
+TC_SRC_02,Search,Case-insensitive search,search REPORT,Write FYP report,Regression,API login + API seed,High
+TC_SRC_03,Search,No matches,search xyz,No rows; No matching tasks message,Regression,API login + API seed,Medium
+TC_SRC_04,Search,Clear search,search then clear,All 4 rows; message hidden,Regression,API login + API seed,Medium
+TC_USR_01,Multi-user,Users see only their own tasks,demo and alex in separate browser contexts,Alex sees none of demo's tasks; demo still does,Regression,API login (2 users) + API seed,High
+TC_SORT_01,Sort,Sort by priority,seeded low / high / medium / high-done,"high, high, medium, low",New feature (v2.1),API login + API seed,Medium
+TC_SORT_02,Sort,Sort keeps the filter,Open tab then sort,"Open tasks only: high, medium, low",New feature (v2.1),API login + API seed,Medium

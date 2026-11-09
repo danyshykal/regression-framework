@@ -1,0 +1,39 @@
+name: UI Regression
+
+on: [push, pull_request]
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false                 # one browser failing shouldn't cancel the others
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: pip install -r requirements.txt
+      - run: playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Smoke tests
+        run: pytest -m smoke --browser ${{ matrix.browser }} --html=reports/smoke.html --self-contained-html
+
+      - name: Full regression on v2.2 (latest), in parallel - must pass
+        run: pytest -n auto --browser ${{ matrix.browser }} --release 2.2 --html=reports/v2.2.html --self-contained-html
+
+      - name: Full regression on v2.0 (previous stable) - must pass
+        run: pytest -n auto --browser ${{ matrix.browser }} --release 2.0 --html=reports/v2.0.html --self-contained-html
+
+      - name: Regression gate demo on v2.1 - must FAIL (release blocked)
+        run: "! pytest -n auto --browser ${{ matrix.browser }} --release 2.1 -q --html=reports/v2.1-blocked.html --self-contained-html"
+
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: reports-${{ matrix.browser }}
+          path: |
+            reports/
+            test-results/

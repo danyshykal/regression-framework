@@ -1,0 +1,6 @@
+[
+  {"id": "TC_LOGIN_02_wrong_password", "username": "demo", "password": "WrongPass@1"},
+  {"id": "TC_LOGIN_03_unknown_user", "username": "nobody", "password": "Demo@123"},
+  {"id": "TC_LOGIN_04_empty_fields", "username": "", "password": ""},
+  {"id": "TC_LOGIN_05_username_wrong_case", "username": "Demo", "password": "Demo@123"}
+]

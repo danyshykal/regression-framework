@@ -1,0 +1,10 @@
+[
+  {"id": "TC_CRT_02a_empty_title", "title": "", "due_offset_days": null,
+   "error": "Title is required"},
+  {"id": "TC_CRT_02b_spaces_only_title", "title": "     ", "due_offset_days": null,
+   "error": "Title is required"},
+  {"id": "TC_CRT_02c_title_101_characters", "title_length": 101, "due_offset_days": null,
+   "error": "Title must be 100 characters or fewer"},
+  {"id": "TC_CRT_02d_due_date_yesterday", "title": "Submit FYP report", "due_offset_days": -1,
+   "error": "Due date cannot be in the past"}
+]
